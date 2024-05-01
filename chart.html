@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 1</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Add custom styles here */
+    .card {
+      transition: transform 0.3s ease-in-out;
+      height: 100%; /* Set height to 100% */
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-header {
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 15px;
+    }
+
+    .card-summary {
+      background-color: #cce5ff;
+      color: #000;
+    }
+
+    .card-current-state {
+      background-color: #d4edda;
+      color: #000;
+    }
+
+    .card-target-state {
+      background-color: #fff3cd;
+      color: #000;
+    }
+
+    .card-how-get-there {
+      background-color: #f8d7da;
+      color: #000;
+    }
+
+    .card-automation {
+      background-color: #d1ecf1;
+      color: #000;
+    }
+
+    .card-title i {
+      color: #000; /* Set icon color to black */
+      margin-right: 5px; /* Add margin to separate icon from text */
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .pie-charts {
+      display: none;
+    }
+	/* Add custom styles here */
+    .card {
+      transition: transform 0.3s ease-in-out;
+      height: 100%; /* Set height to 100% */
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">Your Logo</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="design.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="chart.html" id="pieChartLink">Chart</a>
+          </li>
+          <!-- Add more navigation items if needed -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Page Content -->
+  <div class="container mt-5">
+    <!-- Row for Pie Charts -->
+    <div class="row">
+      <div class="col">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Pie Chart 1</h5>
+            <canvas id="pieChart1"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Pie Chart 2</h5>
+            <canvas id="pieChart2"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Pie Chart 3</h5>
+            <canvas id="pieChart3"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include Chart.js -->
+  <!-- Include Chart.js -->
+ <!-- Include Chart.js -->
+ <!-- Include Chart.js -->
+ <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Pie Chart Data
+    var pieData1 = {
+      labels: ['Priority 1', 'Priority 2', 'Priority 3', 'Priority 4'],
+      datasets: [{
+        data: [0, 1, 70, 37],
+        backgroundColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0'
+        ]
+      }]
+    };
+
+    var pieData2 = {
+      labels: ['High', 'Medium', 'Low'],
+      datasets: [{
+        data: [56, 69, 34],
+        backgroundColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56'
+        ]
+      }]
+    };
+
+    var pieData3 = {
+      labels: ['Not Exploitable', 'To Verify', 'Confirmed', 'Watch'],
+      datasets: [{
+        data: [48, 37, 22, 31],
+        backgroundColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0'
+        ]
+      }]
+    };
+
+    // Pie Chart Options
+    var pieOptions = {
+      responsive: true,
+      legend: {
+        display: true,
+        position: 'right'
+      },
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem, data) {
+            var dataset = data.datasets[tooltipItem.datasetIndex];
+            var value = dataset.data[tooltipItem.index];
+            return data.labels[tooltipItem.index] + ': ' + value;
+          }
+        }
+      }
+    };
+
+    // Create Pie Charts
+    var ctx1 = document.getElementById('pieChart1').getContext('2d');
+    var pieChart1 = new Chart(ctx1, {
+      type: 'pie',
+      data: pieData1,
+      options: pieOptions
+    });
+
+    var ctx2 = document.getElementById('pieChart2').getContext('2d');
+    var pieChart2 = new Chart(ctx2, {
+      type: 'pie',
+      data: pieData2,
+      options: pieOptions
+    });
+
+    var ctx3 = document.getElementById('pieChart3').getContext('2d');
+    var pieChart3 = new Chart(ctx3, {
+      type: 'pie',
+      data: pieData3,
+      options: pieOptions
+    });
+  </script>
+</body>
+</html>
