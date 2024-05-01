@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 1</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Add custom styles here */
+    .card {
+      transition: transform 0.3s ease-in-out;
+      height: 100%; /* Set height to 100% */
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-header {
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 15px;
+    }
+
+    .card-summary {
+      background-color: #cce5ff;
+      color: #000;
+    }
+
+    .card-current-state {
+      background-color: #d4edda;
+      color: #000;
+    }
+
+    .card-target-state {
+      background-color: #fff3cd;
+      color: #000;
+    }
+
+    .card-how-get-there {
+      background-color: #f8d7da;
+      color: #000;
+    }
+
+    .card-automation {
+      background-color: #d1ecf1;
+      color: #000;
+    }
+
+    .card-title i {
+      color: #000; /* Set icon color to black */
+      margin-right: 5px; /* Add margin to separate icon from text */
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .pie-charts {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">Your Logo</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="design.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="chart.html" id="pieChartLink">Chart</a>
+          </li>
+          <!-- Add more navigation items if needed -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container mt-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <!-- Cards -->
+      <div class="col">
+        <div class="card card-summary mb-3">
+          <div class="card-header">
+            <h5 class="card-title"><i class="fas fa-file-alt text-primary"></i> Summary</h5>
+          </div>
+          <div class="card-body">
+            <p class="card-text">Integrate vulnerabilities reporting into CI Scan and create a modern Dashboard with Vulnerability, Code Quality metrics as well as App Risk health.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card card-current-state mb-3">
+          <div class="card-header">
+            <h5 class="card-title"><i class="fas fa-chart-line text-success"></i> CURRENT STATE</h5>
+          </div>
+          <div class="card-body">
+            <p class="card-text">App team's have to login to multiple data sources to get metrics around vulnerabilities and code quality. Time consuming and difficult to understand.Centralized view of security metrics is not available.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card card-target-state mb-3">
+          <div class="card-header">
+            <h5 class="card-title"><i class="fas fa-bullseye text-warning"></i> TARGET STATE</h5>
+          </div>
+          <div class="card-body">
+            <p class="card-text">Integrate Vulnerability data reporting into CI Build scan, Shift left early. Alert App-Dev partners regarding existing vulnerabilities during the Build phase. Use Olympos Risk dashboard that show's metrics around Vulnerabilities and Code Quality.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card card-how-get-there mb-3">
+          <div class="card-header">
+            <h5 class="card-title"><i class="fas fa-road text-danger"></i> HOW DO WE GET THERE?</h5>
+          </div>
+          <div class="card-body">
+            <p class="card-text">Gather data from the ESP(Enterprise Security pipeline), Checkmarx and CxAdmin tools. Filter key important data from the information that we captured from above tools. Create high-level metrics dashboards that help's app-dev partners to visualize the data with respect to security and code- quality.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card card-automation mb-3">
+          <div class="card-header">
+            <h5 class="card-title"><i class="fas fa-robot text-info"></i> WHAT DO WE NEED TO AUTOMATE</h5>
+          </div>
+          <div class="card-body">
+            <p class="card-text">Create service accounts against ESP, Checkmarx and CxAdmin Tools. Need programmatic access to ESP, Checkmarx and CXAdmin tools.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pie Charts (Initially Hidden) -->
+  
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container text-center">
+      <span class="text-muted">Your Footer Content Here</span>
+    </div>
+  </footer>
+
+  <!-- Include Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.getElementById('pieChartLink').addEventListener('click', function() {
+      // Show the pie charts when the link is clicked
+      document.querySelector('.pie-charts').style.display = 'block';
+
+      // Draw the pie charts
+      var pieData1 = {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+        datasets: [{
+          data: [12, 19, 3, 5, 2],
+          backgroundColor: [
+            'red',
+            'blue',
+            'yellow',
+            'green',
+            'purple'
+          ]
+        }]
+      };
+
+      var pieData2 = {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+        datasets: [{
+          data: [8, 5, 4, 6, 3],
+          backgroundColor: [
+            'red',
+            'blue',
+            'yellow',
+            'green',
+            'purple'
+          ]
+        }]
+      };
+
+      var pieData3 = {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+        datasets: [{
+          data: [10, 7, 6, 8, 4],
+          backgroundColor: [
+            'red',
+            'blue',
+            'yellow',
+            'green',
+            'purple'
+          ]
+        }]
+      };
+
+      var pieOptions = {
+        responsive: true
+      };
+
+      var ctx1 = document.getElementById('pieChart1').getContext('2d');
+      var pieChart1 = new Chart(ctx1, {
+        type: 'pie',
+        data: pieData1,
+        options: pieOptions
+      });
+
+      var ctx2 = document.getElementById('pieChart2').getContext('2d');
+      var pieChart2 = new Chart(ctx2, {
+        type: 'pie',
+        data: pieData2,
+        options: pieOptions
+      });
+
+      var ctx3 = document.getElementById('pieChart3').getContext('2d');
+      var pieChart3 = new Chart(ctx3, {
+        type: 'pie',
+        data: pieData3,
+        options: pieOptions
+      });
+    });
+  </script>
+</body>
+</html>
