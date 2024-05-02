@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Example</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Bundle (Bootstrap JavaScript) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom styles for dropdown */
+        .dropdown-menu {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item {
+            color: #333;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Light colors for pie chart */
+        .light-colors {
+            background-color: rgba(255, 99, 132, 0.2);
+            border-color: rgba(255, 99, 132, 1);
+        }
+
+        /* Panel style */
+        .panel {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Priority details style */
+        #priorityDetails {
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Modal style */
+        .modal-dialog {
+            max-width: 60%;
+        }
+
+        /* Custom view button */
+        #viewBtn {
+            background-color: #28a745;
+            color: #fff;
+            border-color: #28a745;
+            transition: background-color 0.3s ease;
+        }
+
+        #viewBtn:hover {
+            background-color: #218838;
+        }
+
+        /* Custom trends button */
+        #trendsBtn {
+            display: none;
+        }
+
+        #trendsBtnContainer.active #trendsBtn {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <!-- Dart Tool Panel -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="panel">
+                    <h2 class="text-center mb-4">Dart Tool</h2>
+                    <!-- Dropdowns inside the panel -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select AIT
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#" onclick="updateDropdown('dropdownMenuButton1', 'Option 1')">Option 1</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="updateDropdown('dropdownMenuButton1', 'Option 2')">Option 2</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="updateDropdown('dropdownMenuButton1', 'Option 3')">Option 3</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select SPK
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                    <li><a class="dropdown-item" href="#" onclick="updateDropdown('dropdownMenuButton2', 'Option 1')">Option 1</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="updateDropdown('dropdownMenuButton2', 'Option 2')">Option 2</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="updateDropdown('dropdownMenuButton2', 'Option 3')">Option 3</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Component
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                                    <li><a class="dropdown-item" href="#" onclick="updateDropdown('dropdownMenuButton3', 'Option 1')">Option 1</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="updateDropdown('dropdownMenuButton3', 'Option 2')">Option 2</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="updateDropdown('dropdownMenuButton3', 'Option 3')">Option 3</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-outline-success mt-1" id="viewBtn" disabled>View</button>
+                        </div>
+                    </div>
+                    <!-- End of dropdowns -->
+
+                    <!-- Priority details and Pie chart side by side -->
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="position-relative" id="chart-container">
+                                <canvas id="myChart" width="300" height="300"></canvas>
+                            </div>
+                            <div id="trendsBtnContainer" class="mt-3 text-center">
+                                <button id="trendsBtn" class="btn btn-outline-primary" onclick="showTrends()">TRENDS</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-info" id="priorityDetails" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End of Dart Tool Panel -->
+    </div>
+
+    <!-- Line Chart Panel -->
+	
+    <div id="lineChartPanel" class="container mt-5" style="display: none;">
+        <div class="panel">
+		<button class="btn btn-primary" id="lineChartPanelButton" style="display: none;" onclick="window.location.reload();">Back</button>
+            <h2 class="text-center mb-4">Priority Trends</h2>
+            <!-- Line charts for each priority -->
+            <div class="row">
+                <div class="col-md-4">
+                    <canvas id="priorityChart1" width="300" height="300"></canvas>
+                </div>
+                <div class="col-md-4">
+                    <canvas id="priorityChart2" width="300" height="300"></canvas>
+                </div>
+                <div class="col-md-4">
+                    <canvas id="priorityChart3" width="300" height="300"></canvas>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <canvas id="priorityChart4" width="300" height="300"></canvas>
+                </div>
+                <div class="col-md-4">
+                    <canvas id="priorityChart5" width="300" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Line Chart Panel -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="priorityModal" tabindex="-1" aria-labelledby="priorityModalLabel" aria-hidden="true">
+	     <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="priorityModalLabel">Priority Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Priority</th>
+                                <th>Source</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalBodyContent">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateDropdown(dropdownId, optionText) {
+            document.getElementById(dropdownId).innerText = optionText;
+            validateDropdowns();
+        }
+
+        function validateDropdowns() {
+            const dropdown1 = document.getElementById('dropdownMenuButton1').innerText.trim();
+            const dropdown2 = document.getElementById('dropdownMenuButton2').innerText.trim();
+            const dropdown3 = document.getElementById('dropdownMenuButton3').innerText.trim();
+
+            const viewBtn = document.getElementById('viewBtn');
+            if (dropdown1 !== 'Select AIT' && dropdown2 !== 'Select SPK' && dropdown3 !== 'Select Component') {
+                viewBtn.removeAttribute('disabled');
+            } else {
+                viewBtn.setAttribute('disabled', 'disabled');
+            }
+        }
+
+        document.getElementById('viewBtn').addEventListener('click', function () {
+            // Dummy data for pie chart
+            const data = {
+                labels: ['Priority 1', 'Priority 2', 'Priority 3', 'Priority 4', 'Priority 5'],
+                datasets: [{
+                    label: 'Priority Distribution',
+                    data: [30, 20, 10, 25, 15],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            // Chart configuration
+            const config = {
+                type: 'pie',
+                data: data,
+                options: {
+                    legend: {
+                        display: false // Hide legends
+                    },
+                    onClick: function (event, elements) {
+                        if (elements.length > 0) {
+                            const clickedElement = elements[0];
+                            const label = data.labels[clickedElement.index];
+                            const value = data.datasets[0].data[clickedElement.index];
+                            const color = data.datasets[0].backgroundColor[clickedElement.index];
+                            const priorityDetails = document.getElementById('priorityDetails');
+                            priorityDetails.innerHTML = `<strong>${label}:</strong> ${value}`;
+                            priorityDetails.style.backgroundColor = color;
+                            priorityDetails.style.display = 'block';
+
+                            // Update modal content
+                            const modalBodyContent = document.getElementById('modalBodyContent');
+                            modalBodyContent.innerHTML = `<tr><td>${label}</td><td>Add some random text</td></tr>
+                                                          <tr><td>${label}</td><td>Add another random text</td></tr>`;
+
+                            // Show trends button
+                            document.getElementById('trendsBtnContainer').classList.add('active');
+                        }
+                    }
+                }
+            };
+
+            // Create the chart
+            var myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        });
+
+        // Open modal on priority details div click
+        document.getElementById('priorityDetails').addEventListener('click', function () {
+            var myModal = new bootstrap.Modal(document.getElementById('priorityModal'), {
+                keyboard: false
+            });
+            myModal.show();
+        });
+
+        // Function to show trends
+        function showTrends() {
+            // Hide the Dart Tool panel
+            document.querySelector('.container').style.display = 'none';
+            // Show the Line Chart panel
+            document.getElementById('lineChartPanel').style.display = 'block';
+			 document.getElementById('lineChartPanelButton').style.display = 'block';
+			
+
+            // Dummy data for line charts
+            const labels = ['Build 1', 'Build 2', 'Build 3'];
+            const randomData = () => Array.from({ length: 3 }, () => Math.floor(Math.random() * 100));
+
+            // Configuration for line charts
+            const lineChart1Config = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Priority 1',
+                        data: randomData(),
+                        fill: false,
+                        borderColor: 'rgba(255, 99, 132, 0.5)',
+                        tension: 0.1
+                    }]
+                },
+				
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            };
+			const lineChart2Config = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Priority 2',
+                        data: randomData(),
+                        fill: false,
+                        borderColor: 'rgba(54, 162, 235, 0.5)',
+                        tension: 0.1
+                    }]
+                },
+				
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            };
+			const lineChart3Config = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Priority 3',
+                        data: randomData(),
+                        fill: false,
+                        borderColor: 'rgba(255, 206, 86, 0.5)',
+                        tension: 0.1
+                    }]
+                },
+				
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            };
+			const lineChart4Config = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [ {
+                        label: 'Priority 4',
+                        data: randomData(),
+                        fill: false,
+                        borderColor: 'rgba(75, 192, 192, 0.5)',
+                        tension: 0.1
+                    }]
+                },
+				
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            };
+			const lineChart5Config = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [ {
+                        label: 'Priority 5',
+                        data: randomData(),
+                        fill: false,
+                        borderColor: 'rgba(153, 102, 255, 0.5)',
+                        tension: 0.1
+                    }]
+                },
+				
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Create line charts
+            new Chart(document.getElementById('priorityChart1'), lineChart1Config);
+            new Chart(document.getElementById('priorityChart2'), lineChart2Config);
+            new Chart(document.getElementById('priorityChart3'), lineChart3Config);
+            new Chart(document.getElementById('priorityChart4'), lineChart4Config);
+            new Chart(document.getElementById('priorityChart5'), lineChart5Config);
+        }
+    </script>
+</body>
+
+</html>
